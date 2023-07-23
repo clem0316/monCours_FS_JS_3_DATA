@@ -1,11 +1,25 @@
 // MENU DE CE DOCUMENT
-// 1 - Les tableaux
-// 2 - Les Structures de Contrôle (Condition, ternaire, boucles)
-// 3 - Les méthodes :
+// 1 - Tableaux
+// 2 - Structures de Contrôle (Condition, ternaire, boucles)
+// 3 - Méthodes :
 //    -> Strings
 //    -> Numbers
 //    -> Tableaux
 //    -> Objets
+// 4 - Dates
+//    -> Date classique
+//    -> Timestamp
+//    -> IsoString
+// 5 - Destructuring
+// 6 - Regex
+
+// ---------
+
+// Les autres projets de ce cours :
+// 1 - Sous dossier "text-anim" >> apprendre à faire apparaître et disparaître du texte, lettre par lettre
+// 2 - Sous-dossier "password-maker" >> apprendre à faire un générateur de code
+// 3 - Sous dossier "form-checker" >> faire un formulaire à soumettre comprenant pseudo email mdp et vérifier avec des regex (entre autres) que les textes sont valides
+//
 
 // ------------------------------------------------------
 
@@ -357,3 +371,156 @@ document.body.innerHTML = Data.filter((user) =>
 // Sur le status, on fait une fonction ternaire qui dit "Si user.admin==true, alors écris 'Modérateur' mais si user.admin==false, alros écris 'Membre' "
 // Avec le sort, on a choisi de trier l'ordre d'apparition de nos utilisateurs du plus vieux au plus jeune (en pointant la valeur de l'âge dans leur objet).
 // On a ajouté un filtre au début (toujours avant le map, car c'est le map qui affiche, donc autant trier avant). Ce filtre garde uniquement les membres qui connaissent "Javascript"
+
+//
+
+// ------------------------------------------------
+// LES DATES
+// ------------------------------------------------
+
+//
+
+// 1 - Dates classiques
+
+let laDate = new Date();
+
+// 2 - Timestamp
+
+let timestamp = Date.parse(laDate);
+console.log(timestamp);
+// Parse est une méthodequi appartient à l'objet DATE et qui permet de transformer la date en timestamp. Le timestamp est le nombre de secondes écoulées depuis le 1er janvier 1970/
+// Le nombre affiché est en millisecondes. Souvent les 3 derniers chiffres (les millisecodnes) restent à 0, mais possibilité d'avoir leur vraie valeur
+
+const dateParser = (parametre) => {
+  let newDate = new Date(parametre).toLocaleDateString("fr-FR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    // hour: "numeric",
+    // minute: "numeric",
+  });
+  return newDate;
+};
+console.log(dateParser(laDate));
+console.log(dateParser(timestamp));
+// Cette method per met de choisir la manière dont va s'afficher la date
+// Entre parenthèse on commence par la langue puis c'est le pays pour le fuseau horaire, et enfin la manière dont on veut afficher la date
+// Ici on lui a dit d'écrire l'année et le jour en chiffres, mais le mois en lettres
+// À noter que l'on peut ajouter heures et minutes (il faut les écrire au singulier)
+// On peut enfin noter que nos deux console.log renverront le même résultat
+
+// 3 - IsoString
+
+let iso = laDate.toISOString();
+console.log(iso);
+// Juste savoir que cette dernière manière d'écrire existe, et qu'on peut la rencontrer des fois, notamment en récupérant des infos d'une API par exmeple.
+
+//
+
+// --------------------------------------------
+// LE DESTRUCTURING
+// --------------------------------------------
+
+//
+
+// Exemple 1
+
+let moreData = {
+  destVar: ["Element 1", "Element 2"],
+};
+
+const { destVar } = moreData;
+// Dédormais, quand j'appelerai moreData, cela équivaudra à moreData.destVar
+// A quoi ça sert ? Simplement à ne pas avoir à rappeler à chaque fois moreData.destVar dès que l'on veut travailler dans l'objet destVar contenu dans le tableau moreData. On n'aura plus besoin de préciser le tableau ; écrire notre objet suffira.
+
+console.log(moreData.destVar[0]);
+console.log(destVar[0]);
+// Maintenant, ces deux console.log font exactement la même chose. Le but est donc de gagner en lisibilité en raccourciçant.
+
+//
+
+// Exemple 2
+
+let array5 = [70, 80, 90];
+let [x, y, z] = array5;
+console.log(x);
+// Ici est un autre exemple de destructuring. On a choisi de créer un tableau [x, y, z] qui prendra les valeurs du tableau array5. Désormais, les valeurs sont devenues des variables x, y et z. Donc si je console.log(x), cela retourne 70
+
+//
+
+// Exemple 3
+
+// console.log(iso);
+const dateDestructuring = (param) => {
+  let newDate = param.split("T")[0];
+  // Ici on n'a gardé que l'essentiel de notre date au format iso. En enlevant le T et en ne gardant que le premier index, soit la première chaine de caractère.
+  let [y, m, d] = newDate.split("-");
+  // On découpe notre string obtenue en séparant là où des tirets sont présents. On a donc un tableau de 3 éléments comprenant une string pour l'année, une string pour le mois, et une strung pour le jour.
+  // On attribue tout ça dans notre nouvelle variable qui met en paramètres y, m et d
+  return [d, m, y].join("/");
+  // Grâce à cette variable, je peux mettre dans l'ordre mon année, mois et jour. Et avec le join j'ajoute un élément séparateur.
+};
+console.log(dateDestructuring(iso));
+
+//
+
+// ------------------------------------------------
+// LES DATASETS
+// ------------------------------------------------
+
+//
+
+// Les datasets sont des données que je peux mettre dans des balises.
+// =>>>>> Aller voir dans le sous-dossier dataset !
+
+//
+
+// ------------------------------------------------
+// LES REGEX
+// ------------------------------------------------
+
+//
+
+let mail = "from_scratch33@gmail.com";
+
+console.log(mail.search(/from/));
+console.log(mail.search(/jkfldsj/));
+// La méthode search permet de chercher si une chaine de caractère existe dans la valeur de notre variable. Dans le 1er console.log, c'est le cas : cela retourne 0. Dans le 2eme console.log ce n'est pas le cas, cela retourne -1
+
+console.log(mail.replace(/from/, "de"));
+// Méthode pour rempalcer le 1er paramètre par le 2ème paramètre
+// On remarque que notre recherche est entre slash (method regex) mais que pour le 2ème paramètre, à savoir ce qui remplace, ce sera entre guillemets
+
+//
+
+// Les match
+
+console.log(mail.match(/SCratch/));
+// ici on vérifie si ça match exactement. Comme S et C sont en majuscules, ça retourne "null". En effet, quand une Regex ne fonctionne pas, cela ne retourne pas "false" mais "null"
+console.log(mail.match(/SCratch/i));
+// En rajoutant "i", la recherche n''st plus Case Sensitive, donc peu importe majuscule ou minuscule.
+
+console.log(mail.match(/[zug@a]/));
+// Ici je demande, notamment grâce aux crochets, s'il existe ces caractères dans notre string. La réponse se fait pour le 1er caractère trouvé dans notre string. Utile par exemple si on veut vérifier qu'un @ existe dans le mail donné par un user. Dans notre exemple, le 1er caractère trouvé dans notre string est le "a". Donc son retour s'arrête là.
+// Fonctionne aussi avec les chiffres
+
+console.log(mail.match(/\d/));
+// Cette méthode nous dit q'ils existe au moins un chiffre dans notre string
+console.log(mail.match(/[a-z]/));
+// Permet de nous dire q'il existe au moins une lerttre de l'alphabet dans notre string
+
+console.log(mail.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i));
+// Ici je donne la forme de mon mail :
+// 1 - On va encadrer notre regex par 2 slash
+// 2 - On va encadrer la chaîne de caractère à analyser par un chapeau et un dollar : ^ et $
+// 3 - À la toute fin, après le slash de fermeture, on finit par 'i' pour dire que la regex ne doit pas être case sensitive et donc lire indifféremment ce qui est majuscule ou minuscule
+// 4a - Pour le premier mot, cela doit faire [\w_-], c'est-à-dire être sous la forme d'un mot(chiffres ou lettres) avec éventuellement les caractères '_' ou '-'
+// 4b - Je demande ensuite à concaténer un '@' suivi de [\w-] donc un mot(chiffres ou lettres) qui peut contenir éventuellement un '-'
+// 4c - Il faut ensuite concaténer avec un point donc \. suivi d'un mot (par exemple fr ou com) qui doit faire entre 2 et 4 caractères, donc [a-z]{2,4}
+
+let separator = 28835755461;
+
+console.log(separator.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+// Avec la method toString on remplace le nombre en string
+// Ici on a mis la regex en paramètre 1, c'est à dire que l'on va placer un séparateur tous les 3 chiffres. EN 2ème paramètre, on dit que le séparateur souhaité est un point.
+// On note que la regex s'applique en commençant par le dernier caractère, c'est à dire qu'il va mettre un point tous les 3 caractères en aprtant du dernier vers le premier de notre string. Dans notre cas, retourne : 28.835.755.461

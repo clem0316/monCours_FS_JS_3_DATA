@@ -32,8 +32,8 @@ const generatePassword = () => {
   // Ici on intègre donc le mot de passe sur l'lément HTML pointé avec la constante passwordOutput. On remarque que le mot de passe appraît au-dessus de notre slider.
   passwordOutput.select();
   // Cette commande permet de sélectionner le texte pointé. Ici cela sélecte (en surlignage comme avec la souris) le mot de passe affiché sur le HTML
-  //   document.execCommand("copy");
-  // Normalement cette dernière commande devait copier le texte automatiquement (comme un Pomme+C) mais cette commande est désormais obsolète.
+  navigator.clipboard.writeText(passwordOutput.value);
+  // Cette dernière method permet de copier dans le presse-papier le texte selectionné
 
   generateButton.textContent = "Copié!";
   // On indique ici au user que le mdp a été copié dans son presse-papier. Cela apparaît à la palce du bouton "Générer mot de passe"
